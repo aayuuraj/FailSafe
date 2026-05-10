@@ -57,11 +57,10 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // --- Human-Readable Form Sections ---
-  // The 'label' and 'l' are what the user sees. The 'name' and 'v' are what the AI needs.
   const formSections = [
     {
-      title: "1. Demographics & School",
+      title: "Demographics & School",
+      icon: "🏫",
       fields: [
         { name: "school", label: "School Attended", type: "select", options: [{l: "Gabriel Pereira", v: "GP"}, {l: "Mousinho da Silveira", v: "MS"}] },
         { name: "sex", label: "Student's Sex", type: "select", options: [{l: "Female", v: "F"}, {l: "Male", v: "M"}] },
@@ -72,49 +71,53 @@ function App() {
       ]
     },
     {
-      title: "2. Family Background",
+      title: "Family Background",
+      icon: "👨‍👩‍👧‍👦",
       fields: [
         { name: "Medu", label: "Mother's Education (0=None, 4=College)", type: "number", min: 0, max: 4 },
         { name: "Fedu", label: "Father's Education (0=None, 4=College)", type: "number", min: 0, max: 4 },
         { name: "Mjob", label: "Mother's Occupation", type: "select", options: [{l: "Teacher", v: "teacher"}, {l: "Health Sector", v: "health"}, {l: "Civil Services", v: "services"}, {l: "Stay at Home", v: "at_home"}, {l: "Other", v: "other"}] },
         { name: "Fjob", label: "Father's Occupation", type: "select", options: [{l: "Teacher", v: "teacher"}, {l: "Health Sector", v: "health"}, {l: "Civil Services", v: "services"}, {l: "Stay at Home", v: "at_home"}, {l: "Other", v: "other"}] },
         { name: "guardian", label: "Primary Guardian", type: "select", options: [{l: "Mother", v: "mother"}, {l: "Father", v: "father"}, {l: "Other", v: "other"}] },
-        { name: "famsup", label: "Family Educational Support", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] }
+        { name: "famsup", label: "Family Ed Support", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] }
       ]
     },
     {
-      title: "3. Academic Environment",
+      title: "Academic Environment",
+      icon: "📚",
       fields: [
         { name: "reason", label: "Reason for Choosing School", type: "select", options: [{l: "Course Preference", v: "course"}, {l: "Close to Home", v: "home"}, {l: "School Reputation", v: "reputation"}, {l: "Other", v: "other"}] },
         { name: "traveltime", label: "Commute Time (1=Short, 4=Long)", type: "number", min: 1, max: 4 },
-        { name: "studytime", label: "Weekly Study Time (1=Low, 4=High)", type: "number", min: 1, max: 4 },
+        { name: "studytime", label: "Weekly Study (1=Low, 4=High)", type: "number", min: 1, max: 4 },
         { name: "schoolsup", label: "Extra School Support", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] },
         { name: "nursery", label: "Attended Nursery School", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] },
-        { name: "higher", label: "Plans for Higher Education", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] }
+        { name: "higher", label: "Plans for Higher Ed", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] }
       ]
     },
     {
-      title: "4. Social & Lifestyle",
+      title: "Social & Lifestyle",
+      icon: "🌍",
       fields: [
         { name: "internet", label: "Home Internet Access", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] },
-        { name: "romantic", label: "In a Romantic Relationship", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] },
-        { name: "famrel", label: "Family Relationship Quality (1-5)", type: "number", min: 1, max: 5 },
+        { name: "romantic", label: "In a Relationship", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] },
+        { name: "famrel", label: "Family Relation Quality (1-5)", type: "number", min: 1, max: 5 },
         { name: "freetime", label: "Amount of Free Time (1-5)", type: "number", min: 1, max: 5 },
-        { name: "goout", label: "Frequency of Going Out (1-5)", type: "number", min: 1, max: 5 },
-        { name: "Dalc", label: "Workday Alcohol Intake (1-5)", type: "number", min: 1, max: 5 },
-        { name: "Walc", label: "Weekend Alcohol Intake (1-5)", type: "number", min: 1, max: 5 }
+        { name: "goout", label: "Going Out Frequency (1-5)", type: "number", min: 1, max: 5 },
+        { name: "Dalc", label: "Workday Alcohol (1-5)", type: "number", min: 1, max: 5 },
+        { name: "Walc", label: "Weekend Alcohol (1-5)", type: "number", min: 1, max: 5 }
       ]
     },
     {
-      title: "5. Health & Performance",
+      title: "Health & Performance",
+      icon: "📈",
       fields: [
         { name: "health", label: "Current Health Status (1-5)", type: "number", min: 1, max: 5 },
         { name: "absences", label: "Total Absences (0-93)", type: "number", min: 0, max: 93 },
-        { name: "failures", label: "History of Past Failures (0-4)", type: "number", min: 0, max: 4 },
+        { name: "failures", label: "Past Class Failures (0-4)", type: "number", min: 0, max: 4 },
         { name: "G1", label: "First Period Grade (0-20)", type: "number", min: 0, max: 20 },
         { name: "G2", label: "Second Period Grade (0-20)", type: "number", min: 0, max: 20 },
-        { name: "paid", label: "Attends Extra Paid Classes", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] },
-        { name: "activities", label: "Extracurricular Activities", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] }
+        { name: "paid", label: "Extra Paid Classes", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] },
+        { name: "activities", label: "Extracurriculars", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] }
       ]
     }
   ];
@@ -127,24 +130,8 @@ function App() {
     });
   };
 
-  const validateForm = () => {
-    if (formData.age < 15 || formData.age > 22) return "Age must be between 15 and 22.";
-    if (formData.absences < 0 || formData.absences > 93) return "Absences must be between 0 and 93.";
-    if (formData.G1 < 0 || formData.G1 > 20) return "First Period Grade must be between 0 and 20.";
-    if (formData.G2 < 0 || formData.G2 > 20) return "Second Period Grade must be between 0 and 20.";
-    if (formData.failures < 0 || formData.failures > 4) return "Past Failures must be between 0 and 4.";
-    return null;
-  };
-
   const analyzeStudent = async (e) => {
     e.preventDefault();
-    const validationError = validateForm();
-    if (validationError) {
-      setError(validationError);
-      setResult(null);
-      return;
-    }
-
     setLoading(true);
     setError(null);
     setResult(null);
@@ -161,75 +148,122 @@ function App() {
   };
 
   return (
-    <div style={{ backgroundColor: '#f0f2f5', minHeight: '100vh', padding: '40px 20px', fontFamily: 'system-ui, sans-serif' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+    <div style={{ backgroundColor: '#f4f7fb', minHeight: '100vh', padding: '50px 20px', fontFamily: '"Inter", system-ui, sans-serif' }}>
+      <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
         
-        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <h1 style={{ fontSize: '2.5rem', color: '#1a365d', margin: '0 0 10px 0' }}>FAILSAFE Dashboard 🚨</h1>
-          <p style={{ color: '#4a5568', fontSize: '1.1rem', margin: '0' }}>Proactive Early Intervention System for Educators.</p>
+        {/* HEADER */}
+        <div style={{ textAlign: 'center', marginBottom: '50px' }}>
+          <h1 style={{ fontSize: '3rem', color: '#1e293b', margin: '0 0 10px 0', fontWeight: '800', letterSpacing: '-1px' }}>
+            FAILSAFE<span style={{ color: '#3b82f6' }}>.</span>
+          </h1>
+          <p style={{ color: '#64748b', fontSize: '1.2rem', margin: '0', fontWeight: '500' }}>Proactive Early Intervention ML System for Educators</p>
         </div>
 
-        {/* Added alignItems: 'flex-start' here to prevent the overlap and stretching */}
-        <div style={{ display: 'flex', gap: '30px', flexWrap: 'wrap', alignItems: 'flex-start' }}>
+        {/* MAIN LAYOUT CONTAINER - Fixed overlapping with alignItems: flex-start and larger gap */}
+        <div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap', alignItems: 'flex-start' }}>
           
-          {/* Left Form Panel */}
-          <div style={{ flex: '1 1 60%', backgroundColor: 'white', padding: '30px', borderRadius: '12px', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
+          {/* LEFT PANEL: FORM */}
+          <div style={{ flex: '1 1 60%', backgroundColor: '#ffffff', padding: '40px', borderRadius: '24px', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.05)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '30px', borderBottom: '2px solid #f1f5f9', paddingBottom: '20px' }}>
+              <div style={{ backgroundColor: '#eff6ff', padding: '10px', borderRadius: '12px', marginRight: '15px' }}>📝</div>
+              <h2 style={{ color: '#0f172a', margin: '0', fontSize: '1.5rem' }}>Student Profile Data</h2>
+            </div>
+
             <form onSubmit={analyzeStudent}>
               {formSections.map((section, idx) => (
-                <div key={idx} style={{ marginBottom: '30px' }}>
-                  <h3 style={{ color: '#2b6cb0', marginBottom: '15px', borderBottom: '1px solid #e2e8f0', paddingBottom: '8px' }}>{section.title}</h3>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '15px' }}>
+                <div key={idx} style={{ marginBottom: '40px' }}>
+                  <h3 style={{ color: '#334155', marginBottom: '20px', fontSize: '1.1rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    {section.icon} {section.title}
+                  </h3>
+                  
+                  {/* Clean Grid Layout for Inputs */}
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px' }}>
                     {section.fields.map((field) => (
                       <div key={field.name} style={{ display: 'flex', flexDirection: 'column' }}>
-                        <label style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#4a5568', marginBottom: '5px' }}>{field.label}</label>
+                        <label style={{ fontSize: '0.85rem', fontWeight: '600', color: '#64748b', marginBottom: '8px' }}>{field.label}</label>
                         {field.type === 'select' ? (
-                          <select name={field.name} value={formData[field.name]} onChange={handleChange} style={{ padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e0', backgroundColor: '#f8fafc' }}>
+                          <select name={field.name} value={formData[field.name]} onChange={handleChange} style={{ padding: '12px', borderRadius: '10px', border: '1px solid #e2e8f0', backgroundColor: '#f8fafc', color: '#334155', outline: 'none', transition: 'border 0.2s', cursor: 'pointer' }}>
                             {field.options.map(opt => <option key={opt.v} value={opt.v}>{opt.l}</option>)}
                           </select>
                         ) : (
-                          <input type="number" name={field.name} min={field.min} max={field.max} value={formData[field.name]} onChange={handleChange} style={{ padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e0', backgroundColor: '#f8fafc' }} />
+                          <input type="number" name={field.name} min={field.min} max={field.max} value={formData[field.name]} onChange={handleChange} style={{ padding: '12px', borderRadius: '10px', border: '1px solid #e2e8f0', backgroundColor: '#f8fafc', color: '#334155', outline: 'none', transition: 'border 0.2s' }} />
                         )}
                       </div>
                     ))}
                   </div>
                 </div>
               ))}
-              <button type="submit" disabled={loading} style={{ width: '100%', padding: '15px', backgroundColor: '#1a365d', color: 'white', border: 'none', borderRadius: '8px', cursor: loading ? 'not-allowed' : 'pointer', fontSize: '1.1rem', fontWeight: 'bold', marginTop: '10px' }}>
-                {loading ? 'Running ML Analysis...' : 'Run Risk Analysis'}
+              
+              {/* Modern Gradient Button */}
+              <button type="submit" disabled={loading} style={{ width: '100%', padding: '18px', background: 'linear-gradient(135deg, #1e40af 0%, #3b82f6 100%)', color: 'white', border: 'none', borderRadius: '12px', cursor: loading ? 'not-allowed' : 'pointer', fontSize: '1.2rem', fontWeight: 'bold', marginTop: '20px', boxShadow: '0 10px 15px -3px rgba(59, 130, 246, 0.3)', transition: 'transform 0.2s, opacity 0.2s', opacity: loading ? 0.7 : 1 }}>
+                {loading ? 'Analyzing with XGBoost...' : 'Run Risk Analysis 🚀'}
               </button>
             </form>
           </div>
 
-          {/* Right Results Panel */}
-          <div style={{ flex: '1 1 35%', minWidth: '300px' }}>
-            <div style={{ position: 'sticky', top: '40px', backgroundColor: 'white', padding: '30px', borderRadius: '12px', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
-              <h2 style={{ borderBottom: '2px solid #e2e8f0', paddingBottom: '10px', marginTop: '0' }}>Analysis Results</h2>
+          {/* RIGHT PANEL: AI ANALYSIS (Sticky sidebar) */}
+          <div style={{ flex: '1 1 35%', minWidth: '340px', position: 'sticky', top: '40px' }}>
+            <div style={{ backgroundColor: '#ffffff', padding: '40px', borderRadius: '24px', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.08)' }}>
               
-              {error && <div style={{ color: '#c53030', backgroundColor: '#fff5f5', padding: '15px', borderRadius: '8px', borderLeft: '4px solid #f56565' }}>{error}</div>}
+              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '30px', borderBottom: '2px solid #f1f5f9', paddingBottom: '20px' }}>
+                <div style={{ backgroundColor: '#eff6ff', padding: '10px', borderRadius: '12px', marginRight: '15px' }}>📊</div>
+                <h2 style={{ color: '#0f172a', margin: '0', fontSize: '1.5rem' }}>AI Analysis Results</h2>
+              </div>
               
-              {result && (
-                <div>
-                  {/* Fixed spacing inside this box so it doesn't look squished */}
-                  <div style={{ textAlign: 'center', padding: '25px 20px', borderRadius: '8px', backgroundColor: result.is_at_risk ? '#fff5f5' : '#f0fff4', border: `2px solid ${result.is_at_risk ? '#fc8181' : '#68d391'}` }}>
-                    <h1 style={{ color: result.is_at_risk ? '#e53e3e' : '#38a169', margin: '0 0 10px 0', fontSize: '2rem' }}>
-                      {result.is_at_risk ? '⚠️ HIGH RISK' : '✅ ON TRACK'}
-                    </h1>
-                    <p style={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#4a5568', margin: '0' }}>
-                      Failure Probability: {(result.risk_probability * 100).toFixed(1)}%
-                    </p>
+              {error && <div style={{ color: '#b91c1c', backgroundColor: '#fef2f2', padding: '15px', borderRadius: '12px', borderLeft: '4px solid #ef4444', marginBottom: '20px', fontWeight: '500' }}>{error}</div>}
+              
+              {!result && !error && (
+                <div style={{ textAlign: 'center', color: '#94a3b8', padding: '60px 0' }}>
+                  <div style={{ fontSize: '3rem', marginBottom: '15px', opacity: '0.5' }}>🔍</div>
+                  <p style={{ fontSize: '1.1rem' }}>Submit the profile to generate predictive insights.</p>
+                </div>
+              )}
+
+              {result && !error && (
+                <div style={{ animation: 'fadeIn 0.5s ease-in-out' }}>
+                  
+                  {/* Risk Badge with Progress Bar */}
+                  <div style={{ padding: '25px', borderRadius: '16px', backgroundColor: result.is_at_risk ? '#fef2f2' : '#f0fdf4', border: `2px solid ${result.is_at_risk ? '#fca5a5' : '#86efac'}` }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+                      <h1 style={{ color: result.is_at_risk ? '#dc2626' : '#16a34a', margin: '0', fontSize: '1.8rem', fontWeight: '800' }}>
+                        {result.is_at_risk ? '⚠️ HIGH RISK' : '✅ ON TRACK'}
+                      </h1>
+                      <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: result.is_at_risk ? '#dc2626' : '#16a34a' }}>
+                        {(result.risk_probability * 100).toFixed(1)}%
+                      </span>
+                    </div>
+                    
+                    {/* Visual Progress Bar */}
+                    <div style={{ width: '100%', backgroundColor: result.is_at_risk ? '#fee2e2' : '#dcfce3', borderRadius: '8px', height: '12px', overflow: 'hidden' }}>
+                      <div style={{ width: `${result.risk_probability * 100}%`, backgroundColor: result.is_at_risk ? '#ef4444' : '#22c55e', height: '100%', borderRadius: '8px' }}></div>
+                    </div>
+                    <p style={{ fontSize: '0.85rem', color: '#64748b', margin: '10px 0 0 0', textAlign: 'right' }}>Failure Probability</p>
                   </div>
                   
-                  <h3 style={{ marginTop: '25px', color: '#2d3748', borderBottom: '1px solid #edf2f7', paddingBottom: '5px' }}>Key Predictive Drivers</h3>
-                  <ul style={{ paddingLeft: '20px', color: '#4a5568', lineHeight: '1.6' }}>
-                    {result.top_risk_factors.map((factor, i) => (
-                      <li key={i} style={{ marginBottom: '8px' }}>{formatInsight(factor)}</li>
-                    ))}
-                  </ul>
-                  
-                  <h3 style={{ marginTop: '25px', color: '#2d3748' }}>Intervention Plan</h3>
-                  <div style={{ padding: '15px', backgroundColor: '#ebf8ff', borderLeft: '5px solid #3182ce', color: '#2b6cb0', fontWeight: '500', lineHeight: '1.5' }}>
-                    {formatInsight(result.recommended_intervention)}
+                  {/* Key Drivers Section */}
+                  <div style={{ marginTop: '35px' }}>
+                    <h3 style={{ color: '#1e293b', fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
+                      🎯 Predictive Drivers
+                    </h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      {result.top_risk_factors.map((factor, i) => (
+                        <div key={i} style={{ backgroundColor: '#f8fafc', padding: '12px 16px', borderRadius: '10px', borderLeft: '4px solid #cbd5e1', color: '#475569', fontSize: '0.95rem' }}>
+                          {formatInsight(factor)}
+                        </div>
+                      ))}
+                    </div>
                   </div>
+                  
+                  {/* Intervention Plan Section */}
+                  <div style={{ marginTop: '35px' }}>
+                    <h3 style={{ color: '#1e293b', fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
+                      💡 Recommended Action
+                    </h3>
+                    <div style={{ padding: '20px', backgroundColor: '#eff6ff', borderRadius: '12px', borderLeft: '4px solid #3b82f6', color: '#1e40af', fontWeight: '600', lineHeight: '1.5', fontSize: '1.05rem', boxShadow: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.02)' }}>
+                      {formatInsight(result.recommended_intervention)}
+                    </div>
+                  </div>
+
                 </div>
               )}
             </div>
@@ -237,6 +271,12 @@ function App() {
 
         </div>
       </div>
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }

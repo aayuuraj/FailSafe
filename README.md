@@ -1,7 +1,7 @@
 # 🚨 FAILSAFE: AI-Driven Early Intervention System
+<img width="1282" height="919" alt="image" src="https://github.com/user-attachments/assets/bfee9d20-df33-44dd-b74c-d501cfa70a44" />
 
-![FAILSAFE Dashboard](https://via.placeholder.com/800x400?text=Insert+Screenshot+of+Dashboard+Here)
-*(Note: Take a screenshot of your running dashboard, upload it to your repo, and replace this placeholder link!)*
+
 
 ## 📌 The Problem
 In educational institutions, student failure often goes undetected until end-of-semester results are finalized, leaving no room for meaningful intervention. Faculty lack a proactive, data-driven tool to identify at-risk students early and understand the root causes behind their academic struggles.
@@ -25,20 +25,20 @@ In educational institutions, student failure often goes undetected until end-of-
 
 ### 1. The FastAPI Backend
 Open a terminal in the project root and run:
-\`\`\`bash
+```bash
 cd backend
 python -m venv venv
 source venv/bin/activate
 pip install fastapi uvicorn pandas xgboost shap joblib scikit-learn pydantic
 uvicorn main:app --reload
-\`\`\`
+```
 *API will run on http://127.0.0.1:8000*
 
 ### 2. The React Frontend
 Open a new terminal tab in the project root and run:
-\`\`\`bash
+```bash
 cd frontend
 npm install
 npm run dev
-\`\`\`
+```
 *Dashboard will run on http://localhost:5173*

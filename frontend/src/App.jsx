@@ -111,49 +111,51 @@ function App() {
   };
 
   const formSections = [
-    {
-      title: "Demographics & School",
-      fields: [
-        { name: "age", label: "Age (15-22)", type: "number", min: 15, max: 22 },
-        { name: "sex", label: "Sex", type: "select", options: [{l: "Female", v: "F"}, {l: "Male", v: "M"}] },
-        { name: "address", label: "Address Type", type: "select", options: [{l: "Urban", v: "U"}, {l: "Rural", v: "R"}] },
-        { name: "school", label: "School", type: "select", options: [{l: "Gabriel Pereira", v: "GP"}, {l: "Mousinho da Silveira", v: "MS"}] },
-        { name: "reason", label: "Reason for School", type: "select", options: [{l: "Course Preference", v: "course"}, {l: "Close to Home", v: "home"}, {l: "School Reputation", v: "reputation"}, {l: "Other", v: "other"}] }
-      ]
-    },
-    {
-      title: "Academic Performance",
-      fields: [
-        { name: "G1", label: "First Period Grade (0-20)", type: "number", min: 0, max: 20 },
-        { name: "absences", label: "Absences (Total Days)", type: "number", min: 0, max: 93 },
-        { name: "failures", label: "Past Class Failures", type: "number", min: 0, max: 4 },
-        { name: "studytime", label: "Study Time (1: Low - 4: High)", type: "number", min: 1, max: 4 },
-        { name: "schoolsup", label: "Extra Educational Support", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] },
-        { name: "higher", label: "Wants Higher Education", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] }
-      ]
-    },
-    {
-      title: "Family Background",
-      fields: [
-        { name: "Medu", label: "Mother's Education (0: None - 4: Higher)", type: "number", min: 0, max: 4 },
-        { name: "Fedu", label: "Father's Education (0: None - 4: Higher)", type: "number", min: 0, max: 4 },
-        { name: "Mjob", label: "Mother's Job", type: "select", options: [{l: "Teacher", v: "teacher"}, {l: "Health Care", v: "health"}, {l: "Civil Services", v: "services"}, {l: "At Home", v: "at_home"}, {l: "Other", v: "other"}] },
-        { name: "Fjob", label: "Father's Job", type: "select", options: [{l: "Teacher", v: "teacher"}, {l: "Health Care", v: "health"}, {l: "Civil Services", v: "services"}, {l: "At Home", v: "at_home"}, {l: "Other", v: "other"}] },
-        { name: "guardian", label: "Primary Guardian", type: "select", options: [{l: "Mother", v: "mother"}, {l: "Father", v: "father"}, {l: "Other", v: "other"}] },
-        { name: "famsup", label: "Family Educational Support", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] }
-      ]
-    },
-    {
-      title: "Lifestyle & Social",
-      fields: [
-        { name: "traveltime", label: "Travel Time (1: <15m - 4: >1hr)", type: "number", min: 1, max: 4 },
-        { name: "freetime", label: "Free Time (1: Low - 5: High)", type: "number", min: 1, max: 5 },
-        { name: "goout", label: "Going Out (1: Low - 5: High)", type: "number", min: 1, max: 5 },
-        { name: "health", label: "Current Health (1: Bad - 5: Good)", type: "number", min: 1, max: 5 },
-        { name: "internet", label: "Internet Access at Home", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] }
-      ]
-    }
-  ];
+  {
+    title: "Demographics & Schooling",
+    fields: [
+      { name: "age", label: "Age (15-22)", type: "number", min: 15, max: 22 },
+      { name: "sex", label: "Sex", type: "select", options: [{l: "Female", v: "F"}, {l: "Male", v: "M"}] },
+      { name: "address", label: "Address Type", type: "select", options: [{l: "Urban", v: "U"}, {l: "Rural", v: "R"}] },
+      { name: "school", label: "School", type: "select", options: [{l: "Gabriel Pereira", v: "GP"}, {l: "Mousinho da Silveira", v: "MS"}] },
+      { name: "famsize", label: "Family Size", type: "select", options: [{l: "Greater than 3", v: "GT3"}, {l: "Less than 3", v: "LE3"}] },
+      { name: "Pstatus", label: "Parental Cohabitation", type: "select", options: [{l: "Apart", v: "A"}, {l: "Together", v: "T"}] }
+    ]
+  },
+  {
+    title: "Academic Progress",
+    fields: [
+      { name: "G1", label: "Period 1 Grade (0-20)", type: "number", min: 0, max: 20 },
+      { name: "G2", label: "Period 2 Grade (0-20)", type: "number", min: 0, max: 20 },
+      { name: "absences", label: "Absences", type: "number", min: 0, max: 93 },
+      { name: "failures", label: "Past Failures", type: "number", min: 0, max: 4 },
+      { name: "studytime", label: "Study Time (1-4)", type: "number", min: 1, max: 4 },
+      { name: "schoolsup", label: "Extra Support", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] }
+    ]
+  },
+  {
+    title: "Family & Personal",
+    fields: [
+      { name: "Medu", label: "Mother Education (0-4)", type: "number", min: 0, max: 4 },
+      { name: "Fedu", label: "Father Education (0-4)", type: "number", min: 0, max: 4 },
+      { name: "Mjob", label: "Mother's Job", type: "select", options: [{l: "Teacher", v: "teacher"}, {l: "Health", v: "health"}, {l: "Services", v: "services"}, {l: "At Home", v: "at_home"}, {l: "Other", v: "other"}] },
+      { name: "Fjob", label: "Father's Job", type: "select", options: [{l: "Teacher", v: "teacher"}, {l: "Health", v: "health"}, {l: "Services", v: "services"}, {l: "At Home", v: "at_home"}, {l: "Other", v: "other"}] },
+      { name: "nursery", label: "Attended Nursery", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] },
+      { name: "romantic", label: "In Romantic Relationship", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] }
+    ]
+  },
+  {
+    title: "Health & Social",
+    fields: [
+      { name: "Dalc", label: "Workday Alcohol (1-5)", type: "number", min: 1, max: 5 },
+      { name: "Walc", label: "Weekend Alcohol (1-5)", type: "number", min: 1, max: 5 },
+      { name: "health", label: "Health Status (1-5)", type: "number", min: 1, max: 5 },
+      { name: "goout", label: "Go Out (1-5)", type: "number", min: 1, max: 5 },
+      { name: "freetime", label: "Free Time (1-5)", type: "number", min: 1, max: 5 },
+      { name: "famrel", label: "Family Relation (1-5)", type: "number", min: 1, max: 5 }
+    ]
+  }
+];
 
   return (
     <div style={{ backgroundColor: '#f0f2f5', minHeight: '100vh', padding: '40px 20px', fontFamily: 'system-ui, sans-serif' }}>

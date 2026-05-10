@@ -52,7 +52,7 @@ function App() {
     Medu: 4, Fedu: 4, Mjob: "at_home", Fjob: "teacher", reason: "course", guardian: "mother",
     traveltime: 2, studytime: 2, failures: 2, schoolsup: "yes", famsup: "no", paid: "no",
     activities: "no", nursery: "yes", higher: "yes", internet: "no", romantic: "no",
-    famrel: 4, freetime: 3, goout: 4, Dalc: 1, Walc: 1, health: 3, absences: 0, G1: 7
+    famrel: 4, freetime: 3, goout: 4, Dalc: 1, Walc: 1, health: 3, absences: 0, G1: 7, G2: 10
   });
 
   const [result, setResult] = useState(null);
@@ -110,49 +110,72 @@ function App() {
     setLoading(false);
   };
 
-  const formSections = [
+  // 1. Complete state including the missing lifestyle and family variables
+const [formData, setFormData] = useState({
+  school: "GP", sex: "F", age: 18, address: "U", famsize: "GT3", Pstatus: "T",
+  Medu: 4, Fedu: 4, Mjob: "at_home", Fjob: "teacher", reason: "course", guardian: "mother",
+  traveltime: 2, studytime: 2, failures: 0, schoolsup: "yes", famsup: "no", paid: "no",
+  activities: "no", nursery: "yes", higher: "yes", internet: "no", romantic: "no",
+  famrel: 4, freetime: 3, goout: 4, Dalc: 1, Walc: 1, health: 3, absences: 0, G1: 10, G2: 10
+});
+
+// 2. Comprehensive form structure matching UCI student-mat.csv exactly
+const formSections = [
   {
-    title: "Demographics & Schooling",
+    title: "1. Demographics & School",
     fields: [
-      { name: "age", label: "Age (15-22)", type: "number", min: 15, max: 22 },
-      { name: "sex", label: "Sex", type: "select", options: [{l: "Female", v: "F"}, {l: "Male", v: "M"}] },
-      { name: "address", label: "Address Type", type: "select", options: [{l: "Urban", v: "U"}, {l: "Rural", v: "R"}] },
       { name: "school", label: "School", type: "select", options: [{l: "Gabriel Pereira", v: "GP"}, {l: "Mousinho da Silveira", v: "MS"}] },
-      { name: "famsize", label: "Family Size", type: "select", options: [{l: "Greater than 3", v: "GT3"}, {l: "Less than 3", v: "LE3"}] },
-      { name: "Pstatus", label: "Parental Cohabitation", type: "select", options: [{l: "Apart", v: "A"}, {l: "Together", v: "T"}] }
+      { name: "sex", label: "Sex", type: "select", options: [{l: "Female", v: "F"}, {l: "Male", v: "M"}] },
+      { name: "age", label: "Age", type: "number", min: 15, max: 22 },
+      { name: "address", label: "Area", type: "select", options: [{l: "Urban", v: "U"}, {l: "Rural", v: "R"}] },
+      { name: "famsize", label: "Family Size", type: "select", options: [{l: "GT 3 Members", v: "GT3"}, {l: "LE 3 Members", v: "LE3"}] },
+      { name: "Pstatus", label: "Parent Status", type: "select", options: [{l: "Together", v: "T"}, {l: "Apart", v: "A"}] }
     ]
   },
   {
-    title: "Academic Progress",
+    title: "2. Family Background",
     fields: [
-      { name: "G1", label: "Period 1 Grade (0-20)", type: "number", min: 0, max: 20 },
-      { name: "G2", label: "Period 2 Grade (0-20)", type: "number", min: 0, max: 20 },
-      { name: "absences", label: "Absences", type: "number", min: 0, max: 93 },
-      { name: "failures", label: "Past Failures", type: "number", min: 0, max: 4 },
+      { name: "Medu", label: "Mother Edu (0-4)", type: "number", min: 0, max: 4 },
+      { name: "Fedu", label: "Father Edu (0-4)", type: "number", min: 0, max: 4 },
+      { name: "Mjob", label: "Mother Job", type: "select", options: [{l: "Teacher", v: "teacher"}, {l: "Health", v: "health"}, {l: "Services", v: "services"}, {l: "At Home", v: "at_home"}, {l: "Other", v: "other"}] },
+      { name: "Fjob", label: "Father Job", type: "select", options: [{l: "Teacher", v: "teacher"}, {l: "Health", v: "health"}, {l: "Services", v: "services"}, {l: "At Home", v: "at_home"}, {l: "Other", v: "other"}] },
+      { name: "guardian", label: "Guardian", type: "select", options: [{l: "Mother", v: "mother"}, {l: "Father", v: "father"}, {l: "Other", v: "other"}] },
+      { name: "famsup", label: "Family Support", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] }
+    ]
+  },
+  {
+    title: "3. Academic Environment",
+    fields: [
+      { name: "reason", label: "Enrollment Reason", type: "select", options: [{l: "Course", v: "course"}, {l: "Home", v: "home"}, {l: "Reputation", v: "reputation"}, {l: "Other", v: "other"}] },
+      { name: "traveltime", label: "Travel Time (1-4)", type: "number", min: 1, max: 4 },
       { name: "studytime", label: "Study Time (1-4)", type: "number", min: 1, max: 4 },
-      { name: "schoolsup", label: "Extra Support", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] }
-    ]
-  },
-  {
-    title: "Family & Personal",
-    fields: [
-      { name: "Medu", label: "Mother Education (0-4)", type: "number", min: 0, max: 4 },
-      { name: "Fedu", label: "Father Education (0-4)", type: "number", min: 0, max: 4 },
-      { name: "Mjob", label: "Mother's Job", type: "select", options: [{l: "Teacher", v: "teacher"}, {l: "Health", v: "health"}, {l: "Services", v: "services"}, {l: "At Home", v: "at_home"}, {l: "Other", v: "other"}] },
-      { name: "Fjob", label: "Father's Job", type: "select", options: [{l: "Teacher", v: "teacher"}, {l: "Health", v: "health"}, {l: "Services", v: "services"}, {l: "At Home", v: "at_home"}, {l: "Other", v: "other"}] },
+      { name: "schoolsup", label: "School Support", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] },
       { name: "nursery", label: "Attended Nursery", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] },
-      { name: "romantic", label: "In Romantic Relationship", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] }
+      { name: "higher", label: "Wants Higher Ed", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] }
     ]
   },
   {
-    title: "Health & Social",
+    title: "4. Social & Lifestyle",
     fields: [
-      { name: "Dalc", label: "Workday Alcohol (1-5)", type: "number", min: 1, max: 5 },
-      { name: "Walc", label: "Weekend Alcohol (1-5)", type: "number", min: 1, max: 5 },
-      { name: "health", label: "Health Status (1-5)", type: "number", min: 1, max: 5 },
-      { name: "goout", label: "Go Out (1-5)", type: "number", min: 1, max: 5 },
+      { name: "internet", label: "Internet Access", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] },
+      { name: "romantic", label: "In Relationship", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] },
+      { name: "famrel", label: "Family Relation (1-5)", type: "number", min: 1, max: 5 },
       { name: "freetime", label: "Free Time (1-5)", type: "number", min: 1, max: 5 },
-      { name: "famrel", label: "Family Relation (1-5)", type: "number", min: 1, max: 5 }
+      { name: "goout", label: "Going Out (1-5)", type: "number", min: 1, max: 5 },
+      { name: "Dalc", label: "Workday Alc (1-5)", type: "number", min: 1, max: 5 },
+      { name: "Walc", label: "Weekend Alc (1-5)", type: "number", min: 1, max: 5 }
+    ]
+  },
+  {
+    title: "5. Health & Performance",
+    fields: [
+      { name: "health", label: "Health (1-5)", type: "number", min: 1, max: 5 },
+      { name: "absences", label: "Absences (0-93)", type: "number", min: 0, max: 93 },
+      { name: "failures", label: "Past Failures", type: "number", min: 0, max: 4 },
+      { name: "G1", label: "Period 1 (0-20)", type: "number", min: 0, max: 20 },
+      { name: "G2", label: "Period 2 (0-20)", type: "number", min: 0, max: 20 },
+      { name: "paid", label: "Paid Classes", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] },
+      { name: "activities", label: "Extracurriculars", type: "select", options: [{l: "Yes", v: "yes"}, {l: "No", v: "no"}] }
     ]
   }
 ];

@@ -16,7 +16,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Load your Phase 1 artifacts
 print("Loading ML models and encoding artifacts...")
 model = joblib.load('xgboost_model.pkl')
 explainer = joblib.load('shap_explainer.pkl')
@@ -29,31 +28,23 @@ class StudentData(BaseModel):
 @app.post("/predict")
 async def predict_risk(student: StudentData):
     try:
-        # 1. Convert input to DataFrame
         df = pd.DataFrame([student.data])
         
-        # 2. Reorder and fill missing columns based on your training artifacts
-        # This ensures G2, Dalc, Walc, etc., are included if they were in your model_columns
         for col in model_columns:
             if col not in df.columns:
                 df[col] = 0 
         df = df[model_columns]
 
-        # 3. Professional Label Encoding (Handling the "U", "GP", "Teacher" strings)
         for column in df.columns:
             if column in label_encoders:
                 le = label_encoders[column]
-                # Gracefully handle unseen categories
                 df[column] = df[column].apply(lambda x: x if x in le.classes_ else le.classes_[0])
                 df[column] = le.transform(df[column])
 
-        # 4. Prediction
         risk_prob = float(model.predict_proba(df)[0][1])
         is_at_risk = bool(risk_prob > 0.5)
 
-        # 5. SHAP Explanations
         shap_values = explainer(df)
-        
         feature_importance = pd.DataFrame({
             'feature': model_columns,
             'impact': shap_values.values[0]
@@ -64,10 +55,8 @@ async def predict_risk(student: StudentData):
             direction = "increased" if row['impact'] > 0 else "decreased"
             explanations.append(f"Student's {row['feature']} {direction} their risk score.")
 
-        # 6. Advanced Intervention Logic
         top_factor = feature_importance.iloc[0]['feature']
         if is_at_risk:
-            # Check for the strongest academic predictors first
             if student.data.get('G2', 20) < 10:
                 intervention = "Immediate 1-on-1 intensive tutoring required before final exams."
             elif top_factor == 'absences':

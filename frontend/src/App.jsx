@@ -52,7 +52,7 @@ function App() {
     Medu: 4, Fedu: 4, Mjob: "at_home", Fjob: "teacher", reason: "course", guardian: "mother",
     traveltime: 2, studytime: 2, failures: 2, schoolsup: "yes", famsup: "no", paid: "no",
     activities: "no", nursery: "yes", higher: "yes", internet: "no", romantic: "no",
-    famrel: 4, freetime: 3, goout: 4, Dalc: 1, Walc: 1, health: 3, absences: 0, G1: 7
+    famrel: 4, freetime: 3, goout: 4, Dalc: 1, Walc: 1, health: 3, absences: 0, G1: 7, G2: 10
   });
 
   const [result, setResult] = useState(null);
@@ -111,13 +111,7 @@ function App() {
   };
 
   // 1. Complete state including the missing lifestyle and family variables
-const [formData, setFormData] = useState({
-  school: "GP", sex: "F", age: 18, address: "U", famsize: "GT3", Pstatus: "T",
-  Medu: 4, Fedu: 4, Mjob: "at_home", Fjob: "teacher", reason: "course", guardian: "mother",
-  traveltime: 2, studytime: 2, failures: 0, schoolsup: "yes", famsup: "no", paid: "no",
-  activities: "no", nursery: "yes", higher: "yes", internet: "no", romantic: "no",
-  famrel: 4, freetime: 3, goout: 4, Dalc: 1, Walc: 1, health: 3, absences: 0, G1: 10, G2: 10
-});
+
 
 // 2. Comprehensive form structure matching UCI student-mat.csv exactly
 const formSections = [

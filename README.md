@@ -1,6 +1,6 @@
 # 🚨 FAILSAFE: AI-Driven Early Intervention System
 
-img width="1260" height="901" alt="image" src="https://github.com/user-attachments/assets/e0267a0c-5f83-4487-8409-cef651c75b43" />
+(img width="1260" height="901" alt="image" src="https://github.com/user-attachments/assets/e0267a0c-5f83-4487-8409-cef651c75b43" />
 )
 
 

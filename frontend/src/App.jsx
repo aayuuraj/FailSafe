@@ -99,7 +99,7 @@ function App() {
     setResult(null);
     
     try {
-      const response = await axios.post('http://127.0.0.1:8000/predict', {
+      const response = await axios.post('https://failsafe-gytw.onrender.com/predict', {
         data: formData
       });
       setResult(response.data);

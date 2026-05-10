@@ -3,27 +3,28 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import pandas as pd
 import joblib
-import xgboost as xgb
+import numpy as np
 import shap
 
-app = FastAPI(title="FAILSAFE API")
+app = FastAPI(title="FAILSAFE API - Full Dataset Version")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows any frontend to connect (good for local testing)
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-# Load the artifacts from Phase 1
-print("Loading ML models and tools...")
+
+# Load your Phase 1 artifacts
+print("Loading ML models and encoding artifacts...")
 model = joblib.load('xgboost_model.pkl')
 explainer = joblib.load('shap_explainer.pkl')
 label_encoders = joblib.load('label_encoders.pkl')
 model_columns = joblib.load('model_columns.pkl')
 
-# Define the input data structure
 class StudentData(BaseModel):
-    data: dict  # We'll accept a dictionary of student features
+    data: dict 
 
 @app.post("/predict")
 async def predict_risk(student: StudentData):
@@ -31,28 +32,28 @@ async def predict_risk(student: StudentData):
         # 1. Convert input to DataFrame
         df = pd.DataFrame([student.data])
         
-        # 2. Ensure all columns match the training data exactly
+        # 2. Reorder and fill missing columns based on your training artifacts
+        # This ensures G2, Dalc, Walc, etc., are included if they were in your model_columns
         for col in model_columns:
             if col not in df.columns:
-                df[col] = 0  # Default missing values
-        df = df[model_columns] # Reorder columns to match training exactly
+                df[col] = 0 
+        df = df[model_columns]
 
-        # 3. Apply Label Encoding to text categories
-        for column in df.select_dtypes(include=['object']).columns:
+        # 3. Professional Label Encoding (Handling the "U", "GP", "Teacher" strings)
+        for column in df.columns:
             if column in label_encoders:
                 le = label_encoders[column]
-                # Handle unseen labels gracefully by assigning a default
+                # Gracefully handle unseen categories
                 df[column] = df[column].apply(lambda x: x if x in le.classes_ else le.classes_[0])
                 df[column] = le.transform(df[column])
 
-        # 4. Make Prediction
+        # 4. Prediction
         risk_prob = float(model.predict_proba(df)[0][1])
         is_at_risk = bool(risk_prob > 0.5)
 
-        # 5. Generate SHAP Explanations (The "Why")
+        # 5. SHAP Explanations
         shap_values = explainer(df)
         
-        # Get the top 3 reasons for this specific prediction
         feature_importance = pd.DataFrame({
             'feature': model_columns,
             'impact': shap_values.values[0]
@@ -63,17 +64,22 @@ async def predict_risk(student: StudentData):
             direction = "increased" if row['impact'] > 0 else "decreased"
             explanations.append(f"Student's {row['feature']} {direction} their risk score.")
 
-        # 6. Auto-Generate Basic Intervention (Can be expanded later)
+        # 6. Advanced Intervention Logic
         top_factor = feature_importance.iloc[0]['feature']
         if is_at_risk:
-            if top_factor == 'absences':
-                intervention = "Mandatory meeting with academic counselor regarding attendance."
+            # Check for the strongest academic predictors first
+            if student.data.get('G2', 20) < 10:
+                intervention = "Immediate 1-on-1 intensive tutoring required before final exams."
+            elif top_factor == 'absences':
+                intervention = "Mandatory meeting with academic counselor regarding attendance patterns."
             elif top_factor == 'failures':
-                intervention = "Enroll in supplementary tutoring sessions."
+                intervention = "Enroll in supplementary foundational support sessions."
+            elif top_factor in ['Dalc', 'Walc']:
+                intervention = "Counseling requested: Lifestyle factors are significantly impacting focus."
             else:
-                intervention = f"Schedule a 1-on-1 to discuss performance related to {top_factor}."
+                intervention = f"Schedule a performance review focusing on {top_factor}."
         else:
-            intervention = "No immediate action required. Student is on track."
+            intervention = "No immediate action required. Student is currently on track."
 
         return {
             "risk_probability": round(risk_prob, 2),
@@ -83,8 +89,9 @@ async def predict_risk(student: StudentData):
         }
 
     except Exception as e:
+        print(f"Prediction Error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/")
 def read_root():
-    return {"message": "FAILSAFE API is running. Send a POST request to /predict"}
+    return {"message": "FAILSAFE API is running with full parameters."}

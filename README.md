@@ -34,17 +34,21 @@ More importantly, FAILSAFE utilizes **Explainable AI (SHAP)**. Instead of acting
 ### 1. Secure Faculty Authentication
 Complete with JWT authentication, encrypted password hashing, and Role-Based Access Control (RBAC).
 
-![Failsafe Login Screen](./assets/login_screen.png)
+![Failsafe Login Screen](<img width="770" height="638" alt="image" src="https://github.com/user-attachments/assets/a914fa11-6703-412c-ad84-6e8efe575e27" />
+)
 
 ### 2. The Predictive Dashboard
 A dynamic, React-powered UI featuring interactive risk-probability progress bars and categorized student data inputs.
 
-![Failsafe Dashboard](./assets/dashboard_view.png)
+![Failsafe Dashboard](<img width="1077" height="1061" alt="image" src="https://github.com/user-attachments/assets/03601263-db1a-4993-88da-cae60b6e9eb4" /> <img width="1156" height="607" alt="image" src="https://github.com/user-attachments/assets/1f7572eb-4c36-46d5-887f-0e8f39d2581f" />
+
+)
 
 ### 3. Real-Time Intervention Tracking
 Expandable history tables with real-time search filtering. Global HOD (Head of Department) overrides vs. standard faculty views.
 
-![History Table](./assets/history_table.png)
+![History Table](<img width="1065" height="677" alt="image" src="https://github.com/user-attachments/assets/593e8f06-acf0-448d-b7e4-df4139342952" />
+)
 
 ### 4. Interactive API Documentation
 Fully documented REST API with Swagger UI for easy endpoint testing.

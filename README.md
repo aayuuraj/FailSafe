@@ -34,7 +34,8 @@ More importantly, FAILSAFE utilizes **Explainable AI (SHAP)**. Instead of acting
 ### 1. Secure Faculty Authentication
 Complete with JWT authentication, encrypted password hashing, and Role-Based Access Control (RBAC).
 
-![Failsafe Login Screen](<img width="770" height="638" alt="image" src="https://github.com/user-attachments/assets/a914fa11-6703-412c-ad84-6e8efe575e27" />
+![Failsafe Login Screen](<img width="848" height="690" alt="image" src="https://github.com/user-attachments/assets/9dd943ad-eeb1-41fd-889d-fd2739c74463" />
+
 )
 
 ### 2. The Predictive Dashboard

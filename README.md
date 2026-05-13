@@ -47,7 +47,7 @@ A dynamic, React-powered UI featuring interactive risk-probability progress bars
 ### 3. Real-Time Intervention Tracking
 Expandable history tables with real-time search filtering. Global HOD (Head of Department) overrides vs. standard faculty views.
 
-![History Table](\<img width="1122" height="873" alt="image" src="https://github.com/user-attachments/assets/f6e85abc-f410-43f2-a07b-724f336aa105" />
+![History Table](<img width="1122" height="873" alt="image" src="https://github.com/user-attachments/assets/f6e85abc-f410-43f2-a07b-724f336aa105" />
 
 )
 

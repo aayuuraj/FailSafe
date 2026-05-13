@@ -53,7 +53,8 @@ Expandable history tables with real-time search filtering. Global HOD (Head of D
 ### 4. Interactive API Documentation
 Fully documented REST API with Swagger UI for easy endpoint testing.
 
-![Swagger UI API](./assets/api_docs.png)
+![Swagger UI API](![Uploading image.png…]()
+)
 
 ---
 

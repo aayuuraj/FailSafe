@@ -276,7 +276,7 @@ function DashboardScreen({ token, onLogout, userName }) {
     const form = new FormData();
     form.append("file", file);
     try {
-      const response = await axios.post('https://failsafe-gytw.onrender.com/', form, {
+      const response = await axios.post('https://failsafe-gytw.onrender.com/upload-csv', form, {
         headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token}` }
       });
       setBatchResults(response.data);

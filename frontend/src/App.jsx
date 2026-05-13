@@ -67,12 +67,12 @@ function AuthScreen({ onLogin }) {
         formData.append('username', email);
         formData.append('password', password);
         // Ensure you are using localhost, not 127.0.0.1 for Mac CORS safety
-        const response = await axios.post('http://localhost:8000/token', formData, {
+        const response = await axios.post('https://failsafe-gytw.onrender.com//token', formData, {
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         });
         onLogin(response.data.access_token, response.data.user_name);
       } else {
-        await axios.post('http://localhost:8000/register', { email, password, full_name: fullName });
+        await axios.post('https://failsafe-gytw.onrender.com//register', { email, password, full_name: fullName });
         setIsLogin(true);
         alert("Registration successful! Please log in.");
       }
@@ -262,7 +262,7 @@ function DashboardScreen({ token, onLogout, userName }) {
 
   const fetchHistory = async () => {
     try {
-      const res = await axios.get('http://127.0.0.1:8000/students', { headers: { 'Authorization': `Bearer ${token}` }});
+      const res = await axios.get('https://failsafe-gytw.onrender.com/', { headers: { 'Authorization': `Bearer ${token}` }});
       setHistory(res.data);
     } catch(e) { console.error("Failed to fetch history"); }
   };
@@ -276,7 +276,7 @@ function DashboardScreen({ token, onLogout, userName }) {
     const form = new FormData();
     form.append("file", file);
     try {
-      const response = await axios.post('http://127.0.0.1:8000/upload-csv', form, {
+      const response = await axios.post('https://failsafe-gytw.onrender.com/', form, {
         headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token}` }
       });
       setBatchResults(response.data);
@@ -294,7 +294,7 @@ function DashboardScreen({ token, onLogout, userName }) {
     e.preventDefault();
     setLoadingSingle(true);
     try {
-      const response = await axios.post('http://127.0.0.1:8000/predict', { data: formData }, {
+      const response = await axios.post('https://failsafe-gytw.onrender.com/', { data: formData }, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       setSingleResult(response.data);
@@ -442,7 +442,7 @@ const displayedHistory = isExpanded ? filteredHistory : filteredHistory.slice(0,
         onClick={async () => {
           if (window.confirm("Delete ONLY the students you uploaded?")) {
             try {
-              await axios.delete('http://localhost:8000/students/clear?scope=personal', { headers: { 'Authorization': `Bearer ${token}` } });
+              await axios.delete('https://failsafe-gytw.onrender.com//students/clear?scope=personal', { headers: { 'Authorization': `Bearer ${token}` } });
               fetchHistory(); 
               alert("Your personal records were deleted!");
             } catch(e) { console.error(e); }
@@ -457,7 +457,7 @@ const displayedHistory = isExpanded ? filteredHistory : filteredHistory.slice(0,
         onClick={async () => {
           if (window.confirm("WARNING: HOD OVERRIDE. Delete ALL university students?")) {
             try {
-              await axios.delete('http://localhost:8000/students/clear?scope=all', { headers: { 'Authorization': `Bearer ${token}` } });
+              await axios.delete('https://failsafe-gytw.onrender.com//students/clear?scope=all', { headers: { 'Authorization': `Bearer ${token}` } });
               fetchHistory(); 
               alert("Global database wiped.");
             } catch(e) { alert("Access Denied. Only HODs can clear the global database."); }

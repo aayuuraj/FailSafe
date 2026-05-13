@@ -1,8 +1,14 @@
 fastapi
 uvicorn
+pydantic
 pandas
 xgboost
-shap
 scikit-learn
-pydantic
+shap
 joblib
+sqlalchemy
+psycopg2-binary
+python-jose
+passlib
+bcrypt
+python-multipart

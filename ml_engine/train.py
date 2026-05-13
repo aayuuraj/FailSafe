@@ -48,3 +48,10 @@ joblib.dump(label_encoders, 'label_encoders.pkl')
 joblib.dump(list(X.columns), 'model_columns.pkl')
 
 print("✅ SUCCESS! The brain has been upgraded to 32 features.")
+from sklearn.metrics import accuracy_score
+
+# Test the model on the 20% of data it hasn't seen yet
+predictions = model.predict(X_test)
+accuracy = accuracy_score(y_test, predictions)
+
+print(f"📊 Final Model Accuracy: {accuracy * 100:.2f}%")

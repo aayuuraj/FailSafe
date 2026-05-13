@@ -262,7 +262,7 @@ function DashboardScreen({ token, onLogout, userName }) {
 
   const fetchHistory = async () => {
     try {
-      const res = await axios.get('https://failsafe-gytw.onrender.com/', { headers: { 'Authorization': `Bearer ${token}` }});
+      const res = await axios.get('https://failsafe-gytw.onrender.com/students', { headers: { 'Authorization': `Bearer ${token}` }});
       setHistory(res.data);
     } catch(e) { console.error("Failed to fetch history"); }
   };
@@ -294,7 +294,7 @@ function DashboardScreen({ token, onLogout, userName }) {
     e.preventDefault();
     setLoadingSingle(true);
     try {
-      const response = await axios.post('https://failsafe-gytw.onrender.com/', { data: formData }, {
+      const response = await axios.post('https://failsafe-gytw.onrender.com/predict', { data: formData }, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       setSingleResult(response.data);

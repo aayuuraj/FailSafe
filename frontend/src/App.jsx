@@ -72,7 +72,7 @@ function AuthScreen({ onLogin }) {
         });
         onLogin(response.data.access_token, response.data.user_name);
       } else {
-        await axios.post('https://failsafe-gytw.onrender.com//register', { email, password, full_name: fullName });
+        await axios.post('https://failsafe-gytw.onrender.com/register', { email, password, full_name: fullName });
         setIsLogin(true);
         alert("Registration successful! Please log in.");
       }

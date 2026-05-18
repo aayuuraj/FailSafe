@@ -443,7 +443,7 @@ const displayedHistory = isExpanded ? filteredHistory : filteredHistory.slice(0,
         onClick={async () => {
           if (window.confirm("Delete ONLY the students you uploaded?")) {
             try {
-              await axios.delete('https://failsafe-gytw.onrender.com//students/clear?scope=personal', { headers: { 'Authorization': `Bearer ${token}` } });
+              await axios.delete('https://failsafe-gytw.onrender.com/students/clear?scope=personal', { headers: { 'Authorization': `Bearer ${token}` } });
               fetchHistory(); 
               alert("Your personal records were deleted!");
             } catch(e) { console.error(e); }
@@ -458,7 +458,7 @@ const displayedHistory = isExpanded ? filteredHistory : filteredHistory.slice(0,
         onClick={async () => {
           if (window.confirm("WARNING: HOD OVERRIDE. Delete ALL university students?")) {
             try {
-              await axios.delete('https://failsafe-gytw.onrender.com//students/clear?scope=all', { headers: { 'Authorization': `Bearer ${token}` } });
+              await axios.delete('https://failsafe-gytw.onrender.com/students/clear?scope=all', { headers: { 'Authorization': `Bearer ${token}` } });
               fetchHistory(); 
               alert("Global database wiped.");
             } catch(e) { alert("Access Denied. Only HODs can clear the global database."); }

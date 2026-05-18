@@ -67,6 +67,7 @@ function AuthScreen({ onLogin }) {
         formData.append('username', email);
         formData.append('password', password);
         // Ensure you are using localhost, not 127.0.0.1 for Mac CORS safety
+        console.log("SENDING THIS TO BACKEND:", formData);
         const response = await axios.post('https://failsafe-gytw.onrender.com/token', formData, {
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         });
